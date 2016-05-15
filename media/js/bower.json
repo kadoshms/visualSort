@@ -1,0 +1,21 @@
+{
+  "name": "visualSort",
+  "homepage": "https://github.com/kadoshms/visualSort",
+  "authors": [
+    "kadoshms <kadoshms@gmail.com>"
+  ],
+  "description": "a simple utility for visualizing sorting algorithms",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Snap.svg": "snap.svg#^0.4.1"
+  }
+}
