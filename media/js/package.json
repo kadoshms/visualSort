@@ -1,0 +1,28 @@
+{
+  "name": "visual-sort",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test/test.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "amd-loader": "^0.0.5",
+    "amdefine": "^1.0.0",
+    "chai": "^3.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kadoshms/visualSort.git"
+  },
+  "author": "kadoshms",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kadoshms/visualSort/issues"
+  },
+  "homepage": "https://github.com/kadoshms/visualSort#readme"
+}
