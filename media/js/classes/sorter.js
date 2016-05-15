@@ -7,10 +7,12 @@ define([], function(){
     /**
      * create a new sorter instance
      * @param array array to sort
+     * @param callback callback function for each swap
      * @constructor
      */
-    var Sorter = function(array){
+    var Sorter = function(array, callback){
         this.array = array;
+        this.callback = callback;
     }
 
 
@@ -49,6 +51,9 @@ define([], function(){
         var temp = this.array[i];
         this.array[i] = this.array[j];
         this.array[j] = temp;
+
+        if(typeof this.callback == "function")
+            this.callback(i,j);
     }
 
     return Sorter;
