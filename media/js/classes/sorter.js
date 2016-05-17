@@ -7,12 +7,12 @@ define([], function(){
     /**
      * create a new sorter instance
      * @param array array to sort
-     * @param graphics group
+     * @param graphics group OR array for testing
      * @param optional callback function non related to a specific group
      * @constructor
      */
-    var Sorter = function(array, group, callback){
-        this.array = array;
+    var Sorter = function(group, callback){
+        this.array = group instanceof Array ? group : group.getArray();
         this.group = group;
         this.callback = callback;
         this.swaps = [];
@@ -35,6 +35,26 @@ define([], function(){
                     this.swap(j, j+1);
                 }
             }
+        }
+    }
+
+    /**
+     * selection sort algorithm
+     * @complexity O(n^2)
+     */
+    Sorter.prototype.selectionSort = function(){
+        var minIdx, temp;
+        for(var i = 0; i < this.array.length; i++)
+        {
+            minIdx = i;
+            for(var  j = i+1; j< this.array.length; j++)
+            {
+                if(this.array[j]<this.array[minIdx])
+                {
+                    minIdx = j;
+                }
+            }
+            this.swap(i,minIdx);
         }
     }
 
@@ -76,7 +96,7 @@ define([], function(){
 
                 index = index + 1;
             }
-        }, 1000);
+        }, 700);
     }
 
     /**

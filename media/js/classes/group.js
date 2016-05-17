@@ -16,10 +16,11 @@ define([
     function Group(snap, Element, props, array){
         this.elements = [];
         this.props = props;
+        this.array = array;
         for(var i=0;i<array.length;i++)
         {
             props.x = i;
-            props.y = 100;
+            props.y = props.y || 100;
 
             this.elements.push(new Element(snap, array[i], props));
         }
@@ -52,6 +53,14 @@ define([
         var temp = this.elements[i];
         this.elements[i] = this.elements[j];
         this.elements[j] = temp;
+    }
+
+    /**
+     * get array
+     * @returns {*}
+     */
+    Group.prototype.getArray = function(){
+        return this.array;
     }
 
     return Group;
