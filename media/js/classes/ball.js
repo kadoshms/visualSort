@@ -54,7 +54,7 @@ define([], function(){
      * @param destY
      * @returns {*[]}
      */
-    Ball.prototype.populateAnimation = function(destX, destY){
+    Ball.prototype.populateSwapAnimation = function(destX, destY){
         var bbox = this.graphics.getBBox();
         var y = bbox.y;
         var x = bbox.x;

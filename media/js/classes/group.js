@@ -38,10 +38,11 @@ define([
         var tl1 = new Timeline(g1);
         var tl2 = new Timeline(g2);
 
-        var anim1 = this.elements[i].populateAnimation(parseFloat(g2.attr('cx')), this.props.y);
-        var anim2 = this.elements[j].populateAnimation(parseFloat(g1.attr('cx')), this.props.y);
+        var anim1 = this.elements[i].populateSwapAnimation(parseFloat(g2.attr('cx')), this.props.y);
+        var anim2 = this.elements[j].populateSwapAnimation(parseFloat(g1.attr('cx')), this.props.y);
 
-        for(var k=0;k<anim1.length;k++){
+        for(var k=0;k<anim1.length;k++)
+        {
             tl1.add(anim1[k]);
             tl2.add(anim2[k]);
         }

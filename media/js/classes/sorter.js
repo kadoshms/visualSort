@@ -15,7 +15,7 @@ define([], function(){
         this.array = group instanceof Array ? group : group.getArray();
         this.group = group;
         this.callback = callback;
-        this.swaps = [];
+        this.actions = [];
         this.counter = 0;
     }
 
@@ -36,6 +36,7 @@ define([], function(){
                 }
             }
         }
+        this.animateSwaps();
     }
 
     /**
@@ -56,6 +57,110 @@ define([], function(){
             }
             this.swap(i,minIdx);
         }
+        this.animateSwaps();
+    }
+
+    /**
+     * merge sort alogirthm
+     * @complexity O(nlog(n))
+     * @refference http://www.stoimen.com/blog/2010/07/02/friday-algorithms-javascript-merge-sort/
+     */
+    Sorter.prototype.mergeSortAction = function(arr){
+        if (arr.length < 2)
+            return arr;
+
+        var middle = parseInt(arr.length / 2);
+        var left   = arr.slice(0, middle);
+        var right  = arr.slice(middle, arr.length);
+
+        var group = this.group;
+
+        // merge and use callback
+        return Utils.merge(this.mergeSortAction(left), this.mergeSortAction(right), function(a, b){
+            group.swap(a, b);
+        });
+    }
+
+    /**
+     * merge sort delegator
+     */
+    Sorter.prototype.mergeSort = function(){
+        var arr = this.array;
+
+        arr = this.mergeSortAction(arr);
+        this.array = arr;
+    }
+
+    /**
+     * quick sort partition method
+     * @param items
+     * @param left
+     * @param right
+     * @returns {*}
+     */
+    Sorter.prototype.partition = function(items, left, right) {
+
+        var pivot   = items[Math.floor((right + left) / 2)],
+            i       = left,
+            j       = right;
+
+
+        while (i <= j) {
+
+            while (items[i] < pivot) {
+                i++;
+            }
+
+            while (items[j] > pivot) {
+                j--;
+            }
+
+            if (i <= j) {
+                this.swap(i, j);
+                i++;
+                j--;
+            }
+        }
+
+        return i;
+    }
+
+    /**
+     * quick sort algorithm
+     * @param items
+     * @param left
+     * @param right
+     * @returns {*}
+     */
+    Sorter.prototype.quickSortAction = function(items, left ,right){
+        var index = undefined;
+
+        if (items.length > 1) {
+
+            left = typeof left != "number" ? 0 : left;
+            right = typeof right != "number" ? items.length - 1 : right;
+
+            index = this.partition(items, left, right);
+
+            if (left < index - 1) {
+                this.quickSortAction(items, left, index - 1);
+            }
+
+            if (index < right) {
+                this.quickSortAction(items, index, right);
+            }
+        }
+
+        return items;
+    }
+
+    /**
+     * quick sort delegator
+     */
+    Sorter.prototype.quickSort = function(){
+        var arr = this.array;
+        this.array = this.quickSortAction(arr);
+        this.animateSwaps();
     }
 
     /**
@@ -76,7 +181,9 @@ define([], function(){
         var temp = this.array[i];
         this.array[i] = this.array[j];
         this.array[j] = temp;
-        this.swaps.push({i : i, j : j});
+
+        if(i != j)
+            this.actions.push({i : i, j : j});
     }
 
     /**
@@ -87,10 +194,10 @@ define([], function(){
         var sorter = this;
 
         var interval = setInterval(function(){
-            if(index == sorter.swaps.length)
+            if(index == sorter.actions.length)
                 clearInterval(interval);
             else{
-                var currentSwap = sorter.swaps[index];
+                var currentSwap = sorter.actions[index];
                 if(typeof sorter.group.swap == "function")
                     sorter.group.swap(currentSwap.i, currentSwap.j);
 
@@ -106,7 +213,6 @@ define([], function(){
     Sorter.prototype.sort = function(type){
         if(typeof this[type] == "function"){
             this[type].apply(this);
-            this.animateSwaps();
         }
         else
             console.error("Unkown sorting algorithm");
